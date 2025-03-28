@@ -29,7 +29,7 @@ def load_data(file_path):
 
 
 
-df_train = load_data("C:\\Users\\omkas\\Downloads\\academic-project-submission\\train.txt")
+df_train = load_data("./train.txt")
 X_train = df_train["URL"].values
 tokenizer = Tokenizer(char_level=True, lower=False, oov_token=None)
 tokenizer.fit_on_texts(X_train)
