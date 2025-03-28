@@ -57,7 +57,7 @@ def load_model():
     global model
     if model is None:
         try:
-            model = tf.keras.models.load_model('model\\my_cnn_model2.h5')
+            model = tf.keras.models.load_model('./model/my_cnn_model2.h5')
             print("Model loaded successfully")
         except Exception as e:
             print(f"Error loading model: {e}")
