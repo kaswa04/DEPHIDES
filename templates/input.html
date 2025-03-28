@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Enter URL Input</h2>
+
+<div class="tab-container">
+    <div class="tab-buttons">
+        <div class="tab-button active" onclick="openTab(event, 'single-input')">Single/Multiple URLs</div>
+        <div class="tab-button" onclick="openTab(event, 'file-input')">Upload File</div>
+    </div>
+    
+    <div id="single-input" class="tab-content active">
+        <form method="POST" class="form-styled">
+            <div class="form-group">
+                <label for="url_input">Enter URL(s) (one per line):</label>
+                <textarea id="url_input" name="url_input" placeholder="https://example.com" required>{{ session.get('url_input', '') }}</textarea>
+            </div>
+            
+            <div class="preview-section">
+                <div class="preview-title">Preview:</div>
+                <div id="url-preview" class="preview-content">
+                    <em>Enter URLs to see preview</em>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn">Validate URLs</button>
+            <a href="{{ url_for('index') }}" class="btn" style="background-color: #6c757d;">Back</a>
+        </form>
+    </div>
+    
+    <div id="file-input" class="tab-content">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Upload a text file with URLs (one URL per line):</label>
+                <input type="file" id="file" name="file" accept=".txt" required>
+            </div>
+            <button type="submit" class="btn">Upload and Validate</button>
+            <a href="{{ url_for('index') }}" class="btn" style="background-color: #6c757d;">Back</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tabbuttons;
+        
+        // Hide all tab content
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+        }
+        
+        // Remove active class from all tab buttons
+        tabbuttons = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tabbuttons.length; i++) {
+            tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+        }
+        
+        // Show the current tab and add active class to the button
+        document.getElementById(tabName).className += " active";
+        evt.currentTarget.className += " active";
+    }
+    
+    // URL preview functionality
+    const urlInput = document.getElementById('url_input');
+    const urlPreview = document.getElementById('url-preview');
+    
+    urlInput.addEventListener('input', function() {
+        const urls = this.value.split('\n').filter(url => url.trim() !== '');
+        
+        if (urls.length === 0) {
+            urlPreview.innerHTML = '<em>Enter URLs to see preview</em>';
+            return;
+        }
+        
+        let previewHTML = '';
+        urls.forEach((url, index) => {
+            previewHTML += `<div>${index + 1}. ${url}</div>`;
+        });
+        
+        urlPreview.innerHTML = previewHTML;
+    });
+</script>
+{% endblock %}
+

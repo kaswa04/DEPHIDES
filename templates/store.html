@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Store Results</h2>
+
+<div class="preview-section" style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+    <h3 class="preview-title" style="margin-bottom: 15px; color: #333; font-weight: bold;">Results Preview:</h3>
+    <div class="preview-content">
+        {% for result in results %}
+            <div class="result-item {% if result.is_malicious %}malicious{% else %}safe{% endif %}" style="margin-bottom: 10px; padding: 10px; border: 1px solid {% if result.is_malicious %}#dc3545{% else %}#28a745{% endif %}; border-radius: 5px; background-color: {% if result.is_malicious %}#f8d7da{% else %}#d4edda{% endif %};">
+                <div class="url-text" style="font-size: 16px; font-weight: bold; color: #555;">{{ result.url }}</div>
+                <div style="margin-top: 5px;"><strong>Status:</strong> <span style="color: {% if result.is_malicious %}#dc3545{% else %}#28a745{% endif %};">{% if result.is_malicious %}MALICIOUS{% else %}SAFE{% endif %}</span></div>
+                <div style="margin-top: 5px;"><strong>Prediction Time:</strong> {{ result.prediction_time }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="filename">Filename:</label>
+        <input type="text" id="filename" name="filename" value="url_analysis_results.txt" required>
+    </div>
+    <button type="submit" class="btn">Save to File</button>
+    <a href="{{ url_for('index') }}" class="btn" style="background-color: #6c757d;">Back</a>
+
+</form>
+{% endblock %}
+

@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="button-section">
+    <a href="{{ url_for('input_data') }}" class="btn">Press here to Enter Input</a>
+    <a href="{{ url_for('display_output') }}" class="btn">Press here to display output on Screen</a>
+    <a href="{{ url_for('store_output') }}" class="btn">Press here to store the output</a>
+</div>
+{% endblock %}
+
